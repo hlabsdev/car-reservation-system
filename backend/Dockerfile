@@ -5,6 +5,7 @@ WORKDIR /app
 # Dépendances système
 RUN apt-get update && apt-get install -y \
     postgresql-client \
+    netcat-traditional \
     && rm -rf /var/lib/apt/lists/*
 
 # Dépendances Python
@@ -14,9 +15,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Code
 COPY . .
 
-# Collecte static files (pour prod)
-RUN python manage.py collectstatic --noinput || true
+# Script d'entrée
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 EXPOSE 8000
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+ENTRYPOINT ["/entrypoint.sh"]

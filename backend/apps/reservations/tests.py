@@ -1,3 +1,4 @@
+import APIClient
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
@@ -150,3 +151,69 @@ class ReservationServiceTestCase(TestCase):
             )
 
         self.assertIn("pas disponible", str(context.exception))
+        
+
+class ReservationViewSetTestCase(TestCase):
+    """Tests des endpoints API."""
+    
+    def setUp(self):
+        self.client = APIClient()
+        self.user = User.objects.create_user(
+            username='testuser',
+            password='testpass123'
+        )
+        self.client.force_authenticate(user=self.user)
+        
+        self.car = Car.objects.create(
+            registration_number='TEST-001',
+            brand='Test',
+            model='Model',
+            year=2024,
+            status=CarStatus.AVAILABLE
+        )
+    
+    def test_list_reservations_authenticated(self):
+        """Test: liste réservations nécessite authentification."""
+        self.client.logout()
+        response = self.client.get('/api/reservations/')
+        self.assertEqual(response.status_code, 401)
+    
+    def test_create_reservation_success(self):
+        """Test: création réservation via API."""
+        now = timezone.now()
+        data = {
+            'car_id': self.car.id,
+            'start_date': (now + timedelta(days=1)).isoformat(),
+            'end_date': (now + timedelta(days=2)).isoformat(),
+            'purpose': 'Test mission'
+        }
+        
+        response = self.client.post('/api/reservations/', data, format='json')
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data['purpose'], 'Test mission')
+    
+    def test_create_reservation_conflict_returns_400(self):
+        """Test: conflit retourne 400."""
+        now = timezone.now()
+        start = now + timedelta(days=1)
+        end = now + timedelta(days=2)
+        
+        # Première réservation
+        ReservationService.create_reservation(
+            user=self.user,
+            car_id=self.car.id,
+            start_date=start,
+            end_date=end
+        )
+        
+        # Tentative de conflit
+        data = {
+            'car_id': self.car.id,
+            'start_date': start.isoformat(),
+            'end_date': end.isoformat(),
+            'purpose': 'Conflict'
+        }
+        
+        response = self.client.post('/api/reservations/', data, format='json')
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('error', response.data)
