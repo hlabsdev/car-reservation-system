@@ -209,6 +209,13 @@ Des **tests unitaires ciblés** sont implémentés au niveau de la couche applic
 # 1. Cloner le repo
 git clone https://github.com/hlabsdev/car-reservation-system.git
 cd car-reservation-system
+
+# 2. Installer pnpm globalement de facon propre
+corepack enable && corepack prepare pnpm@latest --activate
+
+#Ou avec npm si ca ne fonctionne pas
+
+npm install -g pnpm
 ```
 
 ### 8.1. Lancement Manuel Sans tracas
@@ -235,7 +242,6 @@ python manage.py createsuperuser
 
 ```bash
 cd frontend
-npm install -g pnpm
 pnpm install
 pnpm dev
 ```
