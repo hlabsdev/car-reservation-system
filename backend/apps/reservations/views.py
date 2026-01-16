@@ -12,6 +12,7 @@ from .services import ReservationService
 class ReservationViewSet(viewsets.ModelViewSet):
     serializer_class = ReservationSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = None
 
     def get_queryset(self):
         """Utilisateur voit uniquement ses réservations."""

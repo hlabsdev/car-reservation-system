@@ -24,5 +24,5 @@ urlpatterns = [
     path('api/auth/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/users/', include('apps.users.urls')),
     path('api/cars/', include('apps.cars.urls')),
-    # path('api/reservations/', include('apps.reservations.urls')),
+    path('api/reservations/', include('apps.reservations.urls')),
 ]
