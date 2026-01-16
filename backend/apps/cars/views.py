@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework.permissions import IsAuthenticated
+from .models import Car
+from .serializers import CarSerializer
 
-# Create your views here.
+class CarViewSet(ReadOnlyModelViewSet):
+    queryset = Car.objects.all()
+    serializer_class = CarSerializer
+    permission_classes = [IsAuthenticated]
