@@ -403,7 +403,7 @@ Si plus de temps, voici ce qui serait ajouté :
 
 ## 11. Auteur
 
-**GOLO Komi Kekeli Hermann** Candidat Développeur Full-Stack - ***Togo Data Lab***
+**GOLO Komi Kekeli Hermann** - ***Togo Data Lab***
 
 ---
 **Note technique :** Ce projet a été réalisé dans un délai de quatre (4) jours avec un focus sur la qualité du code, la testabilité et l'expérience utilisateur (Comme demande dans les instructions) plutôt que sur la quantité de features.
