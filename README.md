@@ -218,7 +218,8 @@ corepack enable && corepack prepare pnpm@latest --activate
 npm install -g pnpm
 ```
 
-### 8.1. Lancement Manuel Sans tracas
+### 8.1. Lancement Manuel Sans tracas 
+>Noter que le fichier `settings.py` est par defaut config pour le lancement manuel. Pou le lancement avec docker veuillez hange la partie `DATABASE` dans les settings.
 
 **Backend:**
 
@@ -312,7 +313,8 @@ cp .env.example .env
 # 3. Build et lancer
 docker-compose up --build
 
-# 4. Initialiser les données (premier lancement uniquement)
+# [OPTIONNELS - COMMANDES DEJA PREXECUTEES AU LANCER DES DOCKER CONTAINER]
+# 4. Initialiser les données (premier lancement uniquement, normalement eja fait dans la commande docker up. Mais la refaire si besoin)
 docker-compose exec backend python manage.py migrate
 docker-compose exec backend python manage.py seed_data
 
