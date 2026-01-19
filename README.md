@@ -286,7 +286,9 @@ DATABASES = {
 #         'PORT': os.getenv('DB_PORT', '5432'),
 #     }
 # }
+```
 
+```bash
 # ====== A ca... (commenter la db sqlite et decommenter la db postgres) ======:
 
 # DATABASES = {
